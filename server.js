@@ -10,12 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the root directory (since server.js is now in /api)
-app.use(express.static(path.join(__dirname, '../public')));
+// Serve static files from the root directory
+app.use(express.static(__dirname));
 
 // Serve index.html as the root
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 0. HEALTH CHECK (For frontend verification)
@@ -99,7 +99,6 @@ app.get('/callback', async (req, res) => {
         });
 
         // Redirect back to our dashboard with the user data
-        // For security, we'd normally use a session, but for this demo, we'll pass via query
         const userData = userResponse.data.data.user;
         const encodedData = Buffer.from(JSON.stringify(userData)).toString('base64');
         
